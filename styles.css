@@ -25,9 +25,9 @@ body {
 /* Mensaje especial centrado */
 #specialMessage {
     display: none;
-    font-size: 6em; /* Tamaño grande */
+    font-size: 6em;
     font-weight: bold;
-    color: white;
+    color: #ff007f; /* Color rosa fuerte */
     text-shadow: 5px 5px 15px black;
     position: absolute;
     top: 50%;
@@ -36,7 +36,24 @@ body {
     animation: fadeIn 2s ease-in-out;
 }
 
+/* Animación de aparición */
 @keyframes fadeIn {
     0% { opacity: 0; }
     100% { opacity: 1; }
+}
+
+/* Botón con color */
+button {
+    background-color: #ff007f;
+    color: white;
+    padding: 15px;
+    font-size: 1.2em;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+button:hover {
+    background-color: #ff4d94;
+    transform: scale(1.1);
 }
