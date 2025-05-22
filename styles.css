@@ -5,33 +5,38 @@ body {
     background: url('c3fb435d224eeedae9486ea8778b1746.jpg') no-repeat center center fixed;
     background-size: cover;
     background-position: center;
-    background-attachment: fixed; /* Mantiene el fondo estático */
+    background-attachment: fixed;
     color: white;
     height: 100vh;
     overflow: hidden;
 }
 
-/* Animación de fade-in en el contenido */
-.fade-in {
+/* Contenedor principal */
+.container {
+    transition: opacity 1s ease-in-out;
+}
+
+/* Animación de fade-out */
+.fade-out {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Mensaje especial */
+#specialMessage {
+    display: none;
+    font-size: 5em; /* Tamaño grande del mensaje */
+    font-weight: bold;
+    color: white;
+    text-shadow: 5px 5px 15px black;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     animation: fadeIn 2s ease-in-out;
 }
 
 @keyframes fadeIn {
     0% { opacity: 0; }
     100% { opacity: 1; }
-}
-
-/* Animación de botón */
-button {
-    background-color: #ff007f;
-    color: white;
-    padding: 10px;
-    border: none;
-    cursor: pointer;
-    transition: transform 0.2s ease-in-out;
-}
-
-button:hover {
-    background-color: #ff4d94;
-    transform: scale(1.1);
 }
