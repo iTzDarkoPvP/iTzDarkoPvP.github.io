@@ -2,14 +2,13 @@
 body {
     font-family: Arial, sans-serif;
     text-align: center;
-    background: url('imagenes/c3fb435d224eeedae9486ea8778b1746.jpg') no-repeat center center fixed;
+    background: url('c3fb435d224eeedae9486ea8778b1746.jpg') no-repeat center center fixed;
     background-size: cover;
     background-position: center;
-    background-attachment: fixed;
+    background-attachment: fixed; /* Mantiene el fondo estático */
     color: white;
     height: 100vh;
     overflow: hidden;
-    animation: fadeInBackground 2s ease-in-out;
 }
 
 /* Animación de fade-in en el contenido */
@@ -29,20 +28,10 @@ button {
     padding: 10px;
     border: none;
     cursor: pointer;
-    animation: pulse 1s infinite alternate;
+    transition: transform 0.2s ease-in-out;
 }
 
 button:hover {
     background-color: #ff4d94;
-}
-
-@keyframes pulse {
-    0% { transform: scale(1); }
-    100% { transform: scale(1.1); }
-}
-
-/* Animación del fondo cuando carga */
-@keyframes fadeInBackground {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
+    transform: scale(1.1);
 }
