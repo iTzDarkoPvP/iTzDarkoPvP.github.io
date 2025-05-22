@@ -16,16 +16,16 @@ body {
     transition: opacity 1s ease-in-out;
 }
 
-/* Animación de fade-out */
+/* Desaparecer todo con animación */
 .fade-out {
     opacity: 0;
     pointer-events: none;
 }
 
-/* Mensaje especial */
+/* Mensaje especial centrado */
 #specialMessage {
     display: none;
-    font-size: 5em; /* Tamaño grande del mensaje */
+    font-size: 6em; /* Tamaño grande */
     font-weight: bold;
     color: white;
     text-shadow: 5px 5px 15px black;
