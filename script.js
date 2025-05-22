@@ -1,9 +1,12 @@
-window.addEventListener("load", function() {
-    document.getElementById("preloader").style.display = "none";
-});
-
 document.getElementById("surpriseBtn").addEventListener("click", function() {
-    const message = document.getElementById("message");
-    message.innerText = "Te amo pendejita 🫶🏻❤️";
-    message.style.animation = "fadeIn 2s ease-in-out";
+    const container = document.querySelector(".container");
+    container.classList.add("fade-out");
+
+    setTimeout(() => {
+        container.style.display = "none";
+        const specialMessage = document.createElement("h1");
+        specialMessage.id = "specialMessage";
+        specialMessage.innerHTML = "❤️🫶🏻 Te amo pendejita 🫶🏻❤️";
+        document.body.appendChild(specialMessage);
+    }, 1000);
 });
