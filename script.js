@@ -3,7 +3,7 @@ window.addEventListener("load", function() {
     bgImage.src = "fondo.jpg";
 
     bgImage.onload = function() {
-        document.body.style.backgroundImage = "url('fondo.jpg')";
+        document.body.style.backgroundImage = "url('c3fb435d224eeedae9486ea8778b1746.jpg')";
         document.getElementById("preloader").style.display = "none";
     };
 });
