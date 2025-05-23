@@ -6,7 +6,7 @@ document.getElementById("surpriseBtn").addEventListener("click", function() {
         container.style.display = "none";
         const specialMessage = document.createElement("h1");
         specialMessage.id = "specialMessage";
-        specialMessage.innerHTML = "❤️ Te amo mi niña ❤️";
+        specialMessage.innerHTML = "Te amo mi niña";
         document.body.appendChild(specialMessage);
         specialMessage.style.display = "block"; // Asegura que aparezca
     }, 1000);
