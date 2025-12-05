@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hacker IP Lookup</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', monospace;
+        }
+
+        body {
+            background-color: #0a0a0a;
+            color: #0f0;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 80, 0, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(0, 80, 0, 0.1) 0%, transparent 20%);
+        }
+
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-top: 20px;
+            border-bottom: 1px solid #0f0;
+            padding-bottom: 20px;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #0f0;
+            text-shadow: 0 0 10px #0f0;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #8f8;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .glitch {
+            position: relative;
+            display: inline-block;
+        }
+
+        .glitch::before, .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .glitch::before {
+            left: 2px;
+            text-shadow: -2px 0 #f00;
+            clip: rect(24px, 550px, 90px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+
+        .glitch::after {
+            left: -2px;
+            text-shadow: -2px 0 #00f;
+            clip: rect(85px, 550px, 140px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim {
+            0% { clip: rect(42px, 9999px, 44px, 0); }
+            5% { clip: rect(12px, 9999px, 59px, 0); }
+            10% { clip: rect(48px, 9999px, 29px, 0); }
+            15% { clip: rect(42px, 9999px, 73px, 0); }
+            20% { clip: rect(63px, 9999px, 27px, 0); }
+            25% { clip: rect(34px, 9999px, 55px, 0); }
+            30% { clip: rect(86px, 9999px, 73px, 0); }
+            35% { clip: rect(20px, 9999px, 20px, 0); }
+            40% { clip: rect(26px, 9999px, 60px, 0); }
+            45% { clip: rect(25px, 9999px, 66px, 0); }
+            50% { clip: rect(57px, 9999px, 98px, 0); }
+            55% { clip: rect(5px, 9999px, 46px, 0); }
+            60% { clip: rect(82px, 9999px, 31px, 0); }
+            65% { clip: rect(54px, 9999px, 27px, 0); }
+            70% { clip: rect(28px, 9999px, 99px, 0); }
+            75% { clip: rect(45px, 9999px, 69px, 0); }
+            80% { clip: rect(23px, 9999px, 85px, 0); }
+            85% { clip: rect(54px, 9999px, 84px, 0); }
+            90% { clip: rect(45px, 9999px, 47px, 0); }
+            95% { clip: rect(37px, 9999px, 20px, 0); }
+            100% { clip: rect(4px, 9999px, 91px, 0); }
+        }
+
+        .lookup-form {
+            background-color: rgba(10, 20, 10, 0.8);
+            border: 1px solid #0f0;
+            border-radius: 5px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #8f8;
+            font-weight: bold;
+        }
+
+        .input-wrapper {
+            display: flex;
+            gap: 10px;
+        }
+
+        input {
+            flex: 1;
+            padding: 12px 15px;
+            background-color: #111;
+            border: 1px solid #0a0;
+            color: #0f0;
+            border-radius: 3px;
+            font-size: 1rem;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #0f0;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+        }
+
+        button {
+            background-color: #0a0;
+            color: #000;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            background-color: #0f0;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.7);
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        button:disabled {
+            background-color: #333;
+            color: #666;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .result-container {
+            background-color: rgba(10, 20, 10, 0.8);
+            border: 1px solid #0f0;
+            border-radius: 5px;
+            padding: 25px;
+            margin-top: 20px;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+            display: none;
+        }
+
+        .result-title {
+            color: #0f0;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            text-align: center;
+            border-bottom: 1px solid #0a0;
+            padding-bottom: 10px;
+        }
+
+        .ip-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+
+        .info-item {
+            background-color: rgba(0, 20, 0, 0.5);
+            padding: 15px;
+            border-left: 3px solid #0f0;
+        }
+
+        .info-label {
+            color: #8f8;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            color: #0f0;
+            font-size: 1.1rem;
+            word-break: break-all;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            display: none;
+        }
+
+        .loading-spinner {
+            border: 4px solid rgba(0, 255, 0, 0.3);
+            border-top: 4px solid #0f0;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            background-color: rgba(80, 0, 0, 0.7);
+            border: 1px solid #f00;
+            color: #f88;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .my-ip {
+            text-align: center;
+            margin-top: 10px;
+            color: #8f8;
+            font-size: 0.9rem;
+        }
+
+        .blink {
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #0a0;
+            color: #5a5;
+            font-size: 0.9rem;
+        }
+
+        .hacker-icon {
+            color: #0f0;
+            margin-right: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .ip-info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .input-wrapper {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+ 
+    <div class="matrix-bg" id="matrix-bg"></div>
+
+    <div class="container">
+        <header>
+            <h1 class="glitch" data-text="TRACKER IP LOOKUP">TRACKER IP LOOKUP</h1>
+            <p class="subtitle">Sistema de rastreo y análisis de direcciones IPS</p>
+            <p class="my-ip">Tu IP: <span id="my-ip">Cargando...</span></p>
+        </header>
+
+        <main>
+            <section class="lookup-form">
+                <h2><i class="fas fa-search hacker-icon"></i> Consultar Información de IP</h2>
+                <div class="form-group">
+                    <label for="ip-address">Dirección IP a consultar:</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="ip-address" placeholder="Ej: 8.8.8.8 o deja vacío para tu IP" value="">
+                        <button id="lookup-btn">
+                            <i class="fas fa-terminal"></i> Ejecutar Consulta
+                        </button>
+                    </div>
+                </div>
+                <p style="color: #8f8; font-size: 0.9rem; margin-top: 10px;">
+                    <i class="fas fa-info-circle hacker-icon"></i> Deja el campo vacío para consultar tu propia IP
+                </p>
+            </section>
+
+            <div class="loading" id="loading">
+                <div class="loading-spinner"></div>
+                <p>Analizando IP... Accediendo a la base de datos...</p>
+            </div>
+
+            <div class="error-message" id="error-message">
+                <i class="fas fa-exclamation-triangle"></i> <span id="error-text">Error al consultar la IP</span>
+            </div>
+
+            <div class="result-container" id="result-container">
+                <h3 class="result-title"><i class="fas fa-network-wired hacker-icon"></i> Resultados del Análisis</h3>
+                <div class="ip-info-grid" id="ip-info">
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p><i class="fas fa-shield-alt hacker-icon"></i> Sistema seguro | Solo usalo para fines educativos</p>
+            <p>© 2025 Tracker IP Lookup - Todos los derechos reservados</p>
+            <p>Ten cuidado al usar esta herramienta no soy responsable del mal uso</p>
+        </footer>
+    </div>
+
+    <script>
+   
+        const matrixBg = document.getElementById('matrix-bg');
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        matrixBg.appendChild(canvas);
+        
+        canvas.width = matrixBg.clientWidth;
+        canvas.height = matrixBg.clientHeight;
+        
+        const matrixChars = "01";
+        const fontSize = 14;
+        const columns = canvas.width / fontSize;
+        const drops = [];
+        
+        for(let i = 0; i < columns; i++) {
+            drops[i] = Math.floor(Math.random() * canvas.height / fontSize);
+        }
+        
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 10, 0, 0.04)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = '#0f0';
+            ctx.font = `${fontSize}px monospace`;
+            
+            for(let i = 0; i < drops.length; i++) {
+                const text = matrixChars[Math.floor(Math.random() * matrixChars.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                
+                if(drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                
+                drops[i]++;
+            }
+        }
+        
+        setInterval(drawMatrix, 50);
+        
+        window.addEventListener('resize', () => {
+            canvas.width = matrixBg.clientWidth;
+            canvas.height = matrixBg.clientHeight;
+        });
+
+        const ipInput = document.getElementById('ip-address');
+        const lookupBtn = document.getElementById('lookup-btn');
+        const loading = document.getElementById('loading');
+        const resultContainer = document.getElementById('result-container');
+        const errorMessage = document.getElementById('error-message');
+        const errorText = document.getElementById('error-text');
+        const ipInfo = document.getElementById('ip-info');
+        const myIpElement = document.getElementById('my-ip');
+
+        window.addEventListener('DOMContentLoaded', () => {
+            fetch('https://api.ipify.org?format=json')
+                .then(response => response.json())
+                .then(data => {
+                    myIpElement.textContent = data.ip;
+                    myIpElement.classList.add('blink');
+                    setTimeout(() => myIpElement.classList.remove('blink'), 2000);
+                })
+                .catch(() => {
+                    myIpElement.textContent = 'No disponible';
+                });
+        });
+
+        async function lookupIP(ip = '') {
+            loading.style.display = 'block';
+            resultContainer.style.display = 'none';
+            errorMessage.style.display = 'none';
+            lookupBtn.disabled = true;
+            lookupBtn.innerHTML = '<i class="fas fa-cog fa-spin"></i> Procesando...';
+            
+            try {
+                const response = await fetch(`https://ipapi.co/${ip}/json/`);
+                
+                if (!response.ok) {
+                    throw new Error(`Error HTTP: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                loading.style.display = 'none';
+                lookupBtn.disabled = false;
+                lookupBtn.innerHTML = '<i class="fas fa-terminal"></i> Ejecutar Consulta';
+                
+                if (data.error) {
+                    throw new Error(data.reason || 'Error al obtener información de la IP');
+                }
+                
+                displayIPInfo(data);
+                
+            } catch (error) {
+                loading.style.display = 'none';
+                lookupBtn.disabled = false;
+                lookupBtn.innerHTML = '<i class="fas fa-terminal"></i> Ejecutar Consulta';
+                
+                errorText.textContent = error.message || 'Error desconocido al consultar la IP';
+                errorMessage.style.display = 'block';
+                console.error('Error:', error);
+            }
+        }
+
+        function displayIPInfo(data) {
+            ipInfo.innerHTML = '';
+            
+            const ipData = [
+                { label: 'IP', value: data.ip || 'No disponible', icon: 'fa-globe' },
+                { label: 'Versión IP', value: data.version || 'No disponible', icon: 'fa-code' },
+                { label: 'Ciudad', value: data.city || 'No disponible', icon: 'fa-city' },
+                { label: 'Región', value: data.region || 'No disponible', icon: 'fa-map' },
+                { label: 'País', value: `${data.country_name || 'No disponible'} (${data.country_code || 'N/A'})`, icon: 'fa-flag' },
+                { label: 'Código Postal', value: data.postal || 'No disponible', icon: 'fa-envelope' },
+                { label: 'Zona Horaria', value: data.timezone || 'No disponible', icon: 'fa-clock' },
+                { label: 'Moneda', value: `${data.currency_name || 'No disponible'} (${data.currency || 'N/A'})`, icon: 'fa-money-bill' },
+                { label: 'Proveedor ISP', value: data.org || 'No disponible', icon: 'fa-network-wired' },
+                { label: 'ASN', value: data.asn || 'No disponible', icon: 'fa-server' },
+                { label: 'Latitud', value: data.latitude || 'No disponible', icon: 'fa-map-marker-alt' },
+                { label: 'Longitud', value: data.longitude || 'No disponible', icon: 'fa-map-marker-alt' },
+                { label: 'Idioma', value: data.languages || 'No disponible', icon: 'fa-language' },
+                { label: 'Llamadas', value: data.country_calling_code || 'No disponible', icon: 'fa-phone' }
+            ];
+            
+            ipData.forEach(item => {
+                const infoItem = document.createElement('div');
+                infoItem.className = 'info-item';
+                infoItem.innerHTML = `
+                    <div class="info-label"><i class="fas ${item.icon} hacker-icon"></i> ${item.label}</div>
+                    <div class="info-value">${item.value}</div>
+                `;
+                ipInfo.appendChild(infoItem);
+            });
+            
+            resultContainer.style.display = 'block';
+            
+            resultContainer.style.opacity = '0';
+            resultContainer.style.transform = 'translateY(20px)';
+            resultContainer.style.transition = 'opacity 0.5s, transform 0.5s';
+            
+            setTimeout(() => {
+                resultContainer.style.opacity = '1';
+                resultContainer.style.transform = 'translateY(0)';
+            }, 100);
+        }
+
+        lookupBtn.addEventListener('click', () => {
+            const ip = ipInput.value.trim();
+            lookupIP(ip);
+        });
+
+        ipInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                lookupBtn.click();
+            }
+        });
+
+        myIpElement.addEventListener('click', () => {
+            if (myIpElement.textContent !== 'Cargando...' && myIpElement.textContent !== 'No disponible') {
+                ipInput.value = myIpElement.textContent;
+                lookupIP(myIpElement.textContent);
+            }
+        });
+        
+        const placeholderText = "Ej: 38.182.198.9 o deja vacío para tu IP";
+        let i = 0;
+        function typeWriter() {
+            if (i < placeholderText.length) {
+                ipInput.setAttribute("placeholder", placeholderText.substring(0, i+1));
+                i++;
+                setTimeout(typeWriter, 50);
+            } else {
+                setTimeout(() => {
+                    i = 0;
+                    ipInput.setAttribute("placeholder", "");
+                    setTimeout(typeWriter, 1000);
+                }, 2000);
+            }
+        }
+        
+        setTimeout(typeWriter, 1000);
+    </script>
+</body>
+</html>
